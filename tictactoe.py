@@ -1,4 +1,5 @@
 import random
+import time
 
 def printt():
     global m
@@ -20,23 +21,23 @@ def result():
 def rules():
     global m
     for i in range(3):
-        if m[0][i] == m[1][i] and m[0][i] != ' ':
+        if m[0][i] == m[1][i] and m[0][i] != ' ' and m[2][i] == ' ':
             return 2, i
-        elif m[2][i] == m[1][i] and m[1][i] != ' ':
+        elif m[2][i] == m[1][i] and m[1][i] != ' ' and m[0][i] == ' ':
             return 0, i
-        elif m[0][i] == m[2][i] and m[0][i] != ' ':
+        elif m[0][i] == m[2][i] and m[0][i] != ' ' and m[1][i] == ' ':
             return 1, i
-        if m[i].count('X') == 2 or m[i].count('O') == 2:
+        if (m[i].count('X') == 2 or m[i].count('O') == 2) and (' ' in m[i]):
             return i, m[i].index(' ')
-    if m[0][0] == m[1][1] and m[1][1] != ' ':
+    if m[0][0] == m[1][1] and m[1][1] != ' ' and m[2][2] == ' ':
         return 2, 2
-    elif m[1][1] == m[2][2] and m[1][1] != ' ':
+    elif m[1][1] == m[2][2] and m[1][1] != ' ' and m[0][0] == ' ':
         return 0, 0
-    elif (m[0][0] == m[2][2] and m[0][0] != ' ') and (m[0][2] == m[2][0] and m[0][2] != ' '):
+    elif (m[0][0] == m[2][2] and m[0][0] != ' ') and (m[0][2] == m[2][0] and m[0][2] != ' ') and m[1][1] == ' ':
         return 1, 1
-    elif m[0][2] == m[1][1] and m[1][1] != ' ':
+    elif m[0][2] == m[1][1] and m[1][1] != ' ' and m[2][0] == ' ':
         return 2, 0
-    elif m[1][1] == m[2][0] and m[1][1] != ' ':
+    elif m[1][1] == m[2][0] and m[1][1] != ' ' and m[0][2] == ' ':
         return 0, 2
 
 def generator():
@@ -101,8 +102,10 @@ while True:
         printt()
         while not end:
             play(p1)
+            time.sleep(1.5)
             if (not end) and moves < 9:
                 play(p2)
+                time.sleep(1.5)
             if moves == 9 and not win:
                 print('Draw')
                 break
