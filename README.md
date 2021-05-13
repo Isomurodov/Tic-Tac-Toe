@@ -4,7 +4,7 @@
 The following is a project with some simple use of AI. The game can be played against an AI with adjustable level of difficulity. Currently available levels are Easy and Medium/Difficult. Impossible level is to be added.
 
 
-Instructions:
+Instructions (you may want to watch the demonstration video above):
 
 1. In order to initialize the game, you should enter the following three commands: start #player1 #player2
 
