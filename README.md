@@ -6,20 +6,20 @@ The following is a project with some simple use of AI. The game can be played ag
 
 Instructions:
 
-1.In order to initialize the game, you should enter the following three commands:
+1. In order to initialize the game, you should enter the following three commands:
 	1. "start"
 	2-3. either "user" (for human player) or "easy" / "medium" (for AI with the respective level of difficulty)
 
-	Examples:
-	start user medium (human vs medium-level AI)
-	start medium easy (medium-level AI vs easy-level AI)
-	start user user   (two human players)
+		Examples:
+		start user medium (human vs medium-level AI)
+		start medium easy (medium-level AI vs easy-level AI)
+		start user user   (two human players)
 
 2. Now you can enter enter the coordinates of your next move
-	Examples:
-	2 2
-	1 3
-	2 2
+
+		Examples:
+			2 2
+			1 3
+			2 2
 
 3. To end the game, enter "exit"
- 
