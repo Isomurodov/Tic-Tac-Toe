@@ -1,6 +1,5 @@
 import random
 
-
 def printt():
     global m
     print('---------')
@@ -8,17 +7,37 @@ def printt():
         print('|', ' '.join(i), '|')
     print('---------')
 
-
 def result():
-    global m, check_list
+    global m
     for i in range(3):
         if m[0][i] == m[1][i] == m[2][i] and m[0][i] != ' ':
             return m[0][i]
         if m[i] == ['O', 'O', 'O'] or m[i] == ['X', 'X', 'X']:
             return m[i][0]
-    if (check_list[0] == check_list[4] == check_list[8] or check_list[2] == check_list[4] == check_list[6]) and \
-            check_list[4] != ' ':
-        return check_list[4]
+    if (m[0][0] == m[1][1] == m[2][2] or m[0][2] == m[1][1] == m[2][0]) and m[1][1] != ' ':
+        return m[1][1]
+
+def rules():
+    global m
+    for i in range(3):
+        if m[0][i] == m[1][i] and m[0][i] != ' ':
+            return 2, i
+        elif m[2][i] == m[1][i] and m[1][i] != ' ':
+            return 0, i
+        elif m[0][i] == m[2][i] and m[0][i] != ' ':
+            return 1, i
+        if m[i].count('X') == 2 or m[i].count('O') == 2:
+            return i, m[i].index(' ')
+    if m[0][0] == m[1][1] and m[1][1] != ' ':
+        return 2, 2
+    elif m[1][1] == m[2][2] and m[1][1] != ' ':
+        return 0, 0
+    elif (m[0][0] == m[2][2] and m[0][0] != ' ') and (m[0][2] == m[2][0] and m[0][2] != ' '):
+        return 1, 1
+    elif m[0][2] == m[1][1] and m[1][1] != ' ':
+        return 2, 0
+    elif m[1][1] == m[2][0] and m[1][1] != ' ':
+        return 0, 2
 
 def generator():
     global m
@@ -30,7 +49,7 @@ def generator():
         generator()
 
 def play(player):
-    global m, moves, check_list, end, symbol
+    global m, moves, end, symbol, res, win
     if player == "user":
         try:
             row, col = input('Enter the coordinates: ').split()
@@ -47,16 +66,22 @@ def play(player):
                 print('This cell is occupied! Choose another one!')
             return play("user")
     else:
-        generator()
-        print('Making move level "easy"')
+        if player == "easy":
+            generator()
+        elif player == "medium":
+            res = rules()
+            if res:
+                m[res[0]][res[1]] = symbol[0]
+            else:
+                generator()
+        print(f'Making move level "{player}"')
     symbol = symbol[::-1]
     printt()
     moves += 1
-    check_list = [j for i in m for j in i]
-    if result():
+    win = result()
+    if win:
         end = True
-        print(result(), 'wins')
-
+        print(win, 'wins')
 
 while True:
     try:
@@ -65,19 +90,19 @@ while True:
         p1, p2 = inp[1:]
     except:
         if cmd == 'exit':
-            exit()
-        else:
-            print('Bad parameters!')
             break
-    moves = 0  # n. of moves
-    end = False
-    m = [[' ', ' ', ' '] for i in range(3)]
-    symbol = ('X', 'O')
-    printt()
-    while not end:
-        play(p1)
-        if (not end) and moves < 9:
-            play(p2)
-        if moves == 9:
-            print('Draw')
-            break
+        print('Bad parameters!')
+    else:
+        moves = 0  # n. of moves
+        end = False
+        m = [[' ', ' ', ' '] for i in range(3)]
+        symbol = ('X', 'O')
+        res, win = 0, 0
+        printt()
+        while not end:
+            play(p1)
+            if (not end) and moves < 9:
+                play(p2)
+            if moves == 9 and not win:
+                print('Draw')
+                break
