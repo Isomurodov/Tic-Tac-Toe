@@ -8,7 +8,7 @@ def printt():
         print('|', ' '.join(i), '|')
     print('---------')
 
-def result():
+def result():  # after each move, this function is called to check if the game is over or whether the winner is found
     global m
     for i in range(3):
         if m[0][i] == m[1][i] == m[2][i] and m[0][i] != ' ':
@@ -18,7 +18,7 @@ def result():
     if (m[0][0] == m[1][1] == m[2][2] or m[0][2] == m[1][1] == m[2][0]) and m[1][1] != ' ':
         return m[1][1]
 
-def rules():
+def lvl_medium():  # this function is a medium level player that can think one move ahead
     global m
     for i in range(3):
         if m[0][i] == m[1][i] and m[0][i] != ' ' and m[2][i] == ' ':
@@ -40,16 +40,16 @@ def rules():
     elif m[1][1] == m[2][0] and m[1][1] != ' ' and m[0][2] == ' ':
         return 0, 2
 
-def generator():
+def lvl_easy():  # randomly puts characters (either X or 0) on empty cells
     global m
     x, y = random.randint(0, 2), random.randint(0, 2)
     if m[x][y] == ' ':
         m[x][y] = symbol[0]
         return m
     else:
-        generator()
+        lvl_easy()
 
-def play(player):
+def play(player):  # the central function that controls whose turn it is to play, and prompts different messages to the human players; it also calls respective functions when it is AI's turn to play
     global m, moves, end, symbol, res, win
     if player == "user":
         try:
@@ -70,7 +70,7 @@ def play(player):
         if player == "easy":
             generator()
         elif player == "medium":
-            res = rules()
+            res = lvl_medium()
             if res:
                 m[res[0]][res[1]] = symbol[0]
             else:
@@ -84,7 +84,7 @@ def play(player):
         end = True
         print(win, 'wins')
 
-while True:
+while True:  # putting evrything together
     try:
         inp = input('Input command: ').split()
         cmd = inp[0]
